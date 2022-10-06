@@ -5,7 +5,7 @@ install:
 	poetry install
 
 test-coverage:
-	poetry run pytest --cov=page_loader --cov-report xml
+	poetry run pytest --cov=api_server --cov-report xml
 
 test:
 	poetry run pytest
