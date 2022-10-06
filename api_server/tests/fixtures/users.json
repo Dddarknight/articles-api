@@ -1,0 +1,18 @@
+{
+    "users": {
+        "user1":{
+            "username":"usename5",
+            "email":"mail5@mail.com",
+            "full_name":"Name5 Surname5",
+            "is_moderator":false,
+            "password":"password5"
+        },
+        "user2":{
+            "username":"username2",
+            "email":"mail2@mail.com",
+            "full_name":"Name2 Surname2",
+            "is_moderator":false,
+            "password":"password2"
+        }
+    }
+}

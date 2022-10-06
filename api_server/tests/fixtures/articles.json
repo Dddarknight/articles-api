@@ -1,0 +1,12 @@
+{
+    "articles": {
+        "article1":{
+            "title":"title1",
+            "content":"content1"
+        },
+        "article2":{
+            "title":"title2",
+            "content":"content2"
+        }
+    }
+}
