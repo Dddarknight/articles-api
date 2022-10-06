@@ -11,7 +11,8 @@ load_dotenv()
 
 USER = os.environ.get('USER')
 PASSWORD = os.environ.get('PASSWORD')
-SQLALCHEMY_DATABASE_URL = f"postgresql+psycopg2://{USER}:{PASSWORD}@localhost:5432/articles"
+SQLALCHEMY_DATABASE_URL = (
+    f"postgresql+psycopg2://{USER}:{PASSWORD}@localhost:5432/articles")
 
 database = databases.Database(SQLALCHEMY_DATABASE_URL)
 

@@ -12,7 +12,9 @@ def get_articles(db: Session, skip: int = 0, limit: int = 100):
 
 
 def get_article(db: Session, id: int):
-    return db.query(articles.models.Article).filter(articles.models.Article.id == id).first()
+    return db.query(
+        articles.models.Article).filter(
+            articles.models.Article.id == id).first()
 
 
 def create_article(db: Session,

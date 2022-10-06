@@ -10,19 +10,25 @@ from api_server.users.schemas import UserCreate
 
 
 def get_user(db: Session, id: int):
-    return db.query(users.models.User).filter(users.models.User.id == id).first()
+    return db.query(
+        users.models.User).filter(users.models.User.id == id).first()
 
 
 def get_user_by_username(db: Session, username: str):
-    return db.query(users.models.User).filter(users.models.User.username == username).first()
+    return db.query(
+        users.models.User).filter(
+            users.models.User.username == username).first()
 
 
 def get_user_by_email(db: Session, email: str):
-    return db.query(users.models.User).filter(users.models.User.email == email).first()
+    return db.query(
+        users.models.User).filter(
+            users.models.User.email == email).first()
 
 
 def get_users(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(users.models.User).offset(skip).limit(limit).all()
+    return db.query(
+        users.models.User).offset(skip).limit(limit).all()
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

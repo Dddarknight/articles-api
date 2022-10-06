@@ -1,4 +1,3 @@
-from typing import List
 from datetime import datetime
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -25,7 +24,8 @@ async def create_article(
     if user.id == user_id:
         article = crud.create_article(db=db, article=article, user_id=user_id)
         return article
-    raise HTTPException(status_code=404, detail="Can't create another user's article")
+    raise HTTPException(
+        status_code=404, detail="Can't create another user's article")
 
 
 @router.get("/users/{user_id}/articles/{article_id}",
@@ -63,7 +63,8 @@ async def update_article(
         return crud.update_article(db=db,
                                    article_id=article_id,
                                    new_article_data=new_article_data)
-    raise HTTPException(status_code=404, detail="Can't update another user's article")
+    raise HTTPException(
+        status_code=404, detail="Can't update another user's article")
 
 
 @router.delete("/users/{user_id}/articles/{article_id}",
@@ -81,4 +82,5 @@ async def delete_article(
     if user.id == user_id:
         return crud.delete_article(db=db,
                                    article_id=article_id)
-    raise HTTPException(status_code=404, detail="Can't update another user's article")
+    raise HTTPException(
+        status_code=404, detail="Can't update another user's article")

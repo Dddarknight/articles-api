@@ -58,8 +58,10 @@ def test_create_user(test_db):
 def test_get_user(test_db, monkeypatch):
     data = test_data_users["users"]["user1"]
     client.post('/sign-up', json=data)
-    fake_function = asynctest.CoroutineMock(api_server.routers.users.post_event)
-    monkeypatch.setattr(api_server.routers.users, 'post_event', fake_function)
+    fake_function = asynctest.CoroutineMock(
+        api_server.routers.users.post_event)
+    monkeypatch.setattr(
+        api_server.routers.users, 'post_event', fake_function)
     user = client.get('/users/1')
     assert user.json()['username'] == data['username']
     assert user.json()['email'] == data['email']
@@ -87,8 +89,10 @@ def test_delete_user(test_db):
     user = client.post('/sign-up', json=data)
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.json()['username']}, expires_delta=access_token_expires
+        data={"sub": user.json()['username']},
+        expires_delta=access_token_expires
     )
-    client.delete('/users/1', headers={"Authorization": f"Bearer {access_token}"})
+    client.delete('/users/1',
+                  headers={"Authorization": f"Bearer {access_token}"})
     response = client.get('/users/1')
     assert response.status_code == 404
