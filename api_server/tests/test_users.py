@@ -73,7 +73,8 @@ def test_update_user(test_db):
     user = client.post('/sign-up', json=data_initial)
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.json()['username']}, expires_delta=access_token_expires
+        data={"sub": user.json()['username']},
+        expires_delta=access_token_expires
     )
     data_changed = test_data_users["users"]["user2"]
     user = client.put('/users/1',
