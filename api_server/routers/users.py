@@ -6,8 +6,6 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
 from api_server import dependencies
-from api_server.articles import models as articles_models
-from api_server.database import engine
 from api_server.tokens.models import Token
 from api_server.tokens.token import create_access_token
 from api_server.users import schemas, crud
@@ -18,8 +16,6 @@ from api_server.routers.events import post_event
 
 router = APIRouter()
 
-users_models.Base.metadata.create_all(bind=engine)
-articles_models.Base.metadata.create_all(bind=engine)
 
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
