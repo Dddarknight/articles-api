@@ -3,13 +3,6 @@ import uvicorn
 from fastapi import FastAPI
 from api_server.routers import users, articles, events
 from api_server.database import database
-from api_server.articles import models as articles_models
-from api_server.users import models as users_models
-from api_server.database import engine
-
-
-users_models.Base.metadata.create_all(bind=engine)
-articles_models.Base.metadata.create_all(bind=engine)
 
 
 app = FastAPI()
