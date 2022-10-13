@@ -1,3 +1,4 @@
+import os
 import uvicorn
 import databases
 
@@ -41,6 +42,8 @@ async def startup():
 
 @app.on_event('shutdown')
 async def shutdown():
+    SQLALCHEMY_DATABASE_URL = os.getenv('DATABASE_URL')
+    database = databases.Database(SQLALCHEMY_DATABASE_URL)
     await database.disconnect()
 
 
