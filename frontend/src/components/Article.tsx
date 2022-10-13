@@ -73,6 +73,81 @@ export function Article() {
 }
 
 
+export function ArticleCreate() {
+    const navigate = useNavigate();
+    const token = String(fetchToken());
+    const headers = authHeaders(token);
+    const url = 'http://localhost:8080/articles/create';
+  
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const article_data = {
+        'title': String(data.get('title')),
+        'content': String(data.get('content')),
+    };
+    await axios.post(url, article_data, headers)
+     .then((response) => {
+       if(response){
+        navigate("/");
+       }
+     });
+    };
+  return (
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Typography component="h1" variant="h5">
+            Create article
+          </Typography>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  autoComplete="title"
+                  name="title"
+                  required
+                  fullWidth
+                  id="title"
+                  label="title"
+                  autoFocus
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextareaAutosize
+                  required
+                  id="content"
+                  name="content"
+                  autoComplete="content"
+                  minRows={20}
+                  style={{ width: 400 }}
+                />
+              </Grid>
+            </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Create
+            </Button>
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>
+  );
+}
+
+
 export function ArticleUpdate() {
     let params = useParams();
     const id = params.id;
@@ -129,7 +204,7 @@ export function ArticleUpdate() {
                   id="content"
                   name="content"
                   autoComplete="content"
-                  minRows={3}
+                  minRows={20}
                   style={{ width: 400 }}
                 />
               </Grid>
