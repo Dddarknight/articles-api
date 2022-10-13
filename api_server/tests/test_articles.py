@@ -42,6 +42,7 @@ def test_db():
     yield
     Base.metadata.drop_all(bind=engine)
 
+
 app.dependency_overrides[get_db] = override_get_db
 client = TestClient(app)
 
