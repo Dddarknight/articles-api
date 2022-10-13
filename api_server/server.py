@@ -1,17 +1,12 @@
-import os
 import uvicorn
-import databases
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api_server.api_server.routers import users, articles, statistics
-from api_server.api_server.database import engine
+from api_server.database import database, engine
 from api_server.api_server.users import models as users_models
 from api_server.api_server.articles import models as articles_models
-from dotenv import load_dotenv
 
-
-load_dotenv()
 
 app = FastAPI()
 
@@ -33,8 +28,6 @@ app.add_middleware(
 
 @app.on_event('startup')
 async def startup():
-    SQLALCHEMY_DATABASE_URL = os.getenv('DATABASE_URL')
-    database = databases.Database(SQLALCHEMY_DATABASE_URL)
     await database.connect()
     users_models.Base.metadata.create_all(bind=engine)
     articles_models.Base.metadata.create_all(bind=engine)
@@ -42,8 +35,6 @@ async def startup():
 
 @app.on_event('shutdown')
 async def shutdown():
-    SQLALCHEMY_DATABASE_URL = os.getenv('DATABASE_URL')
-    database = databases.Database(SQLALCHEMY_DATABASE_URL)
     await database.disconnect()
 
 

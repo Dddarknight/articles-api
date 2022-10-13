@@ -6,9 +6,9 @@ from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from api_server.api_server.database import Base
 from api_server.server import app
 from api_server.api_server.routers import articles
+from api_server.database import Base
 from api_server.api_server.dependencies import get_db
 from api_server.api_server.routers.users import ACCESS_TOKEN_EXPIRE_MINUTES
 from api_server.tests.utils import get_test_data
@@ -41,7 +41,6 @@ def test_db():
     Base.metadata.create_all(bind=engine)
     yield
     Base.metadata.drop_all(bind=engine)
-
 
 app.dependency_overrides[get_db] = override_get_db
 client = TestClient(app)

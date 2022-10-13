@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from dotenv import load_dotenv
-from api_server.api_server.database import mongo_client, DB
+from api_server.database import mongo_client, DB
 
 
 load_dotenv()

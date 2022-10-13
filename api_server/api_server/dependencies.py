@@ -6,7 +6,7 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from api_server.api_server.tokens.models import TokenData
 from api_server.api_server import users
-from api_server.api_server.database import SessionLocal
+from api_server.database import SessionLocal
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")

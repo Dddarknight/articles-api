@@ -1,6 +1,7 @@
 import os
 import motor.motor_asyncio
 
+import databases
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -11,6 +12,8 @@ load_dotenv()
 
 
 SQLALCHEMY_DATABASE_URL = os.getenv('DATABASE_URL')
+
+database = databases.Database(SQLALCHEMY_DATABASE_URL)
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 

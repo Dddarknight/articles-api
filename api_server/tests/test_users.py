@@ -6,8 +6,8 @@ from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from api_server.api_server.database import Base
 from api_server.server import app
+from api_server.database import Base
 from api_server.api_server.dependencies import get_db
 from api_server.api_server.routers import users
 from api_server.api_server.routers.users import ACCESS_TOKEN_EXPIRE_MINUTES
