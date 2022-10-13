@@ -76,6 +76,7 @@ def test_update_user(test_db):
         data={"sub": user.json()['username']},
         expires_delta=access_token_expires
     )
+    print(access_token)
     data_changed = test_data_users["users"]["user2"]
     user = client.put('/users/1',
                       json=data_changed,
