@@ -1,0 +1,63 @@
+version: '3.7'
+services:
+  mongo_db:
+    image: mongo
+    container_name: mongo_db
+    env_file:
+      - .env
+    ports:
+      - 27017:27017
+    networks:
+      - custom
+
+  postgres_db:
+    image: postgres
+    container_name: postgres_db
+    volumes:
+      - ./postgres-data:/var/lib/postgresql
+    env_file:
+      - .env
+    ports:
+      - 5432:5432
+    networks:
+      - custom
+
+  nginx:
+    build: nginx
+    container_name: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - api_server
+    networks:
+      - custom
+
+  api_server:
+    build: api_server
+    container_name: api_server
+    env_file:
+      - .env
+    ports:
+      - 8080:8080
+    networks:
+      - custom
+    depends_on:
+      - mongo_db
+      - postgres_db
+
+  frontend:
+    build: frontend
+    container_name: frontend
+    ports:
+      - 3000:3000
+    depends_on:
+      - api_server
+    networks:
+      - custom
+
+networks:
+  custom:
+      driver: bridge

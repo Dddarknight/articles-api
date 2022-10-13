@@ -333,6 +333,26 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
+name = "motor"
+version = "3.0.0"
+description = "Non-blocking MongoDB driver for Tornado or asyncio"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+pymongo = ">=4.1,<5"
+
+[package.extras]
+zstd = ["pymongo[zstd] (>=4.1,<5)"]
+srv = ["pymongo[srv] (>=4.1,<5)"]
+snappy = ["pymongo[snappy] (>=4.1,<5)"]
+ocsp = ["pymongo[ocsp] (>=4.1,<5)"]
+gssapi = ["pymongo[gssapi] (>=4.1,<5)"]
+encryption = ["pymongo[encryption] (>=4.1,<5)"]
+aws = ["pymongo[aws] (>=4.1,<5)"]
+
+[[package]]
 name = "packaging"
 version = "21.3"
 description = "Core utilities for Python packages"
@@ -701,7 +721,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<4"
-content-hash = "d93241a047eb7231ebddec6f7ac6eec8d4200f572d6ac340baaf83d471c915da"
+content-hash = "733aa22b6e760c0d268efa30e1aca77c38a279993ddcac0e1316630a1d228290"
 
 [metadata.files]
 alembic = []
@@ -730,6 +750,7 @@ iniconfig = []
 mako = []
 markupsafe = []
 mccabe = []
+motor = []
 packaging = []
 passlib = []
 pluggy = []

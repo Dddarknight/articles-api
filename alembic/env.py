@@ -4,8 +4,8 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-from api_server.database import SQLALCHEMY_DATABASE_URL
-from api_server.database import Base
+from api_server.api_server.database import SQLALCHEMY_DATABASE_URL
+from api_server.api_server.database import Base
 
 
 # this is the Alembic Config object, which provides

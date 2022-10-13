@@ -6,13 +6,13 @@ from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from api_server.database import Base
+from api_server.api_server.database import Base
 from api_server.server import app
-from api_server.dependencies import get_db
-from api_server.routers.users import ACCESS_TOKEN_EXPIRE_MINUTES
+from api_server.api_server.dependencies import get_db
+from api_server.api_server.routers import users
+from api_server.api_server.routers.users import ACCESS_TOKEN_EXPIRE_MINUTES
 from api_server.tests.utils import get_test_data
-from api_server.tokens.token import create_access_token
-import api_server.routers.users
+from api_server.api_server.tokens.token import create_access_token
 
 
 test_data_users = get_test_data('users.json')
@@ -59,9 +59,9 @@ def test_get_user(test_db, monkeypatch):
     data = test_data_users["users"]["user1"]
     client.post('/sign-up', json=data)
     fake_function = asynctest.CoroutineMock(
-        api_server.routers.users.post_event)
+        users.make_event)
     monkeypatch.setattr(
-        api_server.routers.users, 'post_event', fake_function)
+        users, 'make_event', fake_function)
     user = client.get('/users/1')
     assert user.json()['username'] == data['username']
     assert user.json()['email'] == data['email']

@@ -6,14 +6,14 @@ from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from api_server.database import Base
+from api_server.api_server.database import Base
 from api_server.server import app
-from api_server.dependencies import get_db
-from api_server.routers.users import ACCESS_TOKEN_EXPIRE_MINUTES
+from api_server.api_server.routers import articles
+from api_server.api_server.dependencies import get_db
+from api_server.api_server.routers.users import ACCESS_TOKEN_EXPIRE_MINUTES
 from api_server.tests.utils import get_test_data
 from api_server.tests.test_users import test_data_users
-from api_server.tokens.token import create_access_token
-import api_server.routers.articles
+from api_server.api_server.tokens.token import create_access_token
 
 
 test_data_articles = get_test_data('articles.json')
@@ -59,17 +59,18 @@ def test_create_and_get_article(test_db, monkeypatch):
         expires_delta=access_token_expires
     )
 
-    article = client.post('/users/1/articles/create',
+    article = client.post('/articles/create',
                           json=article_data,
                           headers={"Authorization": f"Bearer {access_token}"})
     assert article.json()['title'] == article_data['title']
     assert article.json()['content'] == article_data['content']
 
     fake_function = asynctest.CoroutineMock(
-        api_server.routers.articles.post_event)
+        articles.make_event)
     monkeypatch.setattr(
-        api_server.routers.articles, 'post_event', fake_function)
-    article = client.get('/users/1/articles/1',
+        articles, 'make_event', fake_function)
+
+    article = client.get('/articles/1',
                          headers={"Authorization": f"Bearer {access_token}"})
     assert article.json()['title'] == article_data['title']
     assert article.json()['content'] == article_data['content']
@@ -88,10 +89,10 @@ def test_update_article_by_author(test_db):
         expires_delta=access_token_expires
     )
 
-    client.post('/users/1/articles/create',
+    client.post('/articles/create',
                 json=article_data_initial,
                 headers={"Authorization": f"Bearer {access_token}"})
-    article = client.put('/users/1/articles/1',
+    article = client.put('/articles/1',
                          json=article_data_changed,
                          headers={"Authorization": f"Bearer {access_token}"})
     assert article.json()['title'] == article_data_changed['title']
@@ -113,14 +114,14 @@ def test_update_article_by_not_author(test_db):
         expires_delta=access_token_expires
     )
 
-    client.post('/users/1/articles/create',
+    client.post('/articles/create',
                 json=article_data_initial,
                 headers={"Authorization": f"Bearer {access_token1}"})
     access_token2 = create_access_token(
         data={"sub": user2.json()['username']},
         expires_delta=access_token_expires
     )
-    response = client.put('/users/1/articles/1',
+    response = client.put('/articles/1',
                           json=article_data_changed,
                           headers={"Authorization": f"Bearer {access_token2}"})
     assert response.status_code == 404
@@ -138,11 +139,11 @@ def test_delete_article(test_db):
         expires_delta=access_token_expires
     )
 
-    client.post('/users/1/articles/create',
+    client.post('/articles/create',
                 json=article_data,
                 headers={"Authorization": f"Bearer {access_token}"})
-    client.delete('/users/1/articles/1',
+    client.delete('/articles/1',
                   headers={"Authorization": f"Bearer {access_token}"})
-    response = client.get('/users/1/articles/1',
+    response = client.get('/articles/1',
                           headers={"Authorization": f"Bearer {access_token}"})
     assert response.status_code == 404
