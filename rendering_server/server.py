@@ -1,3 +1,4 @@
+import os
 import sentry_sdk
 import uvicorn
 from pathlib import Path
