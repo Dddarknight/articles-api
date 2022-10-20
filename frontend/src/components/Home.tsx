@@ -1,20 +1,18 @@
 import * as React from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import { deleteToken } from "./Auth";
-
+import MenuIcon from '@mui/icons-material/Menu';
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import MuiDrawer from '@mui/material/Drawer';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 
 const drawerWidth: number = 240;
 
@@ -72,7 +70,7 @@ const mainListItems = (
       <ListItemButton href='/users'>
         <ListItemText primary="Users" />
       </ListItemButton>
-      <ListItemButton>
+      <ListItemButton href='/articles'>
         <ListItemText primary="Articles" />
       </ListItemButton>
       <Divider sx={{ my: 1 }} />
@@ -82,7 +80,7 @@ const mainListItems = (
       <ListItemButton href='/login'>
         <ListItemText primary="Login" />
       </ListItemButton>
-      <ListItemButton onClick={deleteToken}>
+      <ListItemButton href='/logout'>
         <ListItemText primary="Logout" />
       </ListItemButton>
     </React.Fragment>

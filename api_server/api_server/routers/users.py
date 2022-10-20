@@ -114,3 +114,10 @@ async def delete_user(user_id: int,
         return crud.delete_user(db=db,
                                 user_id=user_id)
     raise HTTPException(status_code=404, detail="Can't delete another user")
+
+
+@router.get("/moderators/", response_model=List[schemas.User])
+async def read_moderators(db: Session = Depends(dependencies.get_db),
+                          skip: int = 0,
+                          limit: int = 100):
+    return crud.get_moderators(db=db, skip=skip, limit=limit)

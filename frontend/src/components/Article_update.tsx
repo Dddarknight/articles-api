@@ -1,40 +1,46 @@
-import * as React from 'react';
-import { useNavigate } from "react-router"
-import axios from "axios"
+import React from "react";
+import axios from "axios";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router";
+import { useCookies } from "react-cookie";
+import { AxiosRequestConfig } from 'axios';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
+import TextareaAutosize from '@mui/base/TextareaAutosize';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-const URL = 'http://localhost:8080/sign-up'
+import { getAuthHeaders } from "./Auth";
 
 const theme = createTheme();
 
-export function SignUp() {
+const URL = 'http://localhost:8080/articles/';
+
+export function ArticleUpdate() {
+  const params = useParams();
+  const id = params.id;
   const navigate = useNavigate();
+
+  const [cookies, setCookie, removeCookie] = useCookies();
+  const token = cookies.access_token;  
+  const headers = getAuthHeaders(token);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const user_data = {
-      'username': String(data.get('username')),
-      'email': String(data.get('email')),
-      'full_name': String(data.get('full_name')),
-      'password': String(data.get('password')),
+    const article_data = {
+      'title': String(data.get('title')),
+      'content': String(data.get('content')),
     };
-    const headers = {
-        'Content-Type': 'application/json'
-    }
-    const response = await axios({
-        method: 'post',
-        url: URL,
-        data: user_data,
-        headers: headers
-    });
-    if (response) navigate("/login");
+    try {
+        await axios.put(`${URL}${id}`, article_data, headers);
+      } catch (error) {
+        console.error(error);
+    };
+    navigate("/articles");
   };
 
   return (
@@ -50,50 +56,29 @@ export function SignUp() {
           }}
         >
           <Typography component="h1" variant="h5">
-            Sign up
+            Update article
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                  autoComplete="username"
-                  name="username"
+                  autoComplete="title"
+                  name="title"
                   required
                   fullWidth
-                  id="username"
-                  label="username"
+                  id="title"
+                  label="title"
                   autoFocus
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
+                <TextareaAutosize
                   required
-                  fullWidth
-                  id="full_name"
-                  label="full_name"
-                  name="full_name"
-                  autoComplete="full_name"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="email"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="password"
-                  type="password"
-                  id="password"
-                  autoComplete="password"
+                  id="content"
+                  name="content"
+                  autoComplete="content"
+                  minRows={20}
+                  style={{ width: 400 }}
                 />
               </Grid>
             </Grid>
@@ -103,7 +88,7 @@ export function SignUp() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              Update
             </Button>
           </Box>
         </Box>

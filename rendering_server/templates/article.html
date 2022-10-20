@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="card mb-3" style="max-width: 30rem;">
+        <div class="card-header">
+            <h3 class="card-title">{{article.title}}</h3>
+        </div>
+        <div class="card-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col">{{ article.content }}</div>
+                </div>
+            </div>
+            <br>
+            <a href="/articles/{{ article.id }}/update/"> Update </a>
+            <br>
+            <a href="/articles/{{ article.id }}/delete/"> Delete </a>
+        </div>
+    </div>
+{% endblock content %}

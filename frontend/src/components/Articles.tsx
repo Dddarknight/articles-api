@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState } from "react";
+import { useCookies } from "react-cookie";
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,13 +9,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { User } from "./User";
+import { Article } from "./Article";
 import useFetchData from "./Utils";
+import { getAuthHeaders } from "./Auth";
 
-const URL = 'http://localhost:8080/users'
+const URL = 'http://localhost:8080/articles'
 
 interface Column {
-  id: 'username' | 'full_name' | 'email' ;
+  id: 'title' | 'content' ;
   label: string;
   minWidth?: number;
   align?: 'right';
@@ -22,18 +24,19 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: 'username', label: 'username', minWidth: 170 },
-  { id: 'full_name', label: 'full_name', minWidth: 170 },
-  { id: 'email', label: 'email', minWidth: 170 },
+  { id: 'title', label: 'title', minWidth: 170 },
+  { id: 'content', label: 'content', minWidth: 170 },
 ];
 
 
-export function UsersRead() {
+export function ArticlesRead() {
   const [loading, setLoading] = useState(true);
-  const [users, setUsers] = useState<User[]>([]);
-  const headers = {}
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [cookies, setCookie, removeCookie] = useCookies();
+  const token = cookies.access_token;
+  const headers = getAuthHeaders(token);
 
-  useFetchData(URL, setUsers, headers, setLoading);
+  useFetchData(URL, setArticles, headers, setLoading);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -66,13 +69,13 @@ export function UsersRead() {
           </TableHead>
           <TableBody>
             {!loading
-            ? users
+            ? articles
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((user: User) => {
+            .map((article: Article) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={user.id}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={article.id}>
                     {columns.map((column) => {
-                      const value = user[column.id];
+                      const value = article[column.id];
                       return (
                         <TableCell key={column.id} align={column.align}>
                           {column.format && typeof value === 'number'
@@ -91,7 +94,7 @@ export function UsersRead() {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={users.length}
+        count={articles.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

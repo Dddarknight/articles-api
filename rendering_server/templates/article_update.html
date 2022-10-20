@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>
+    Update the article
+</h1>
+<br>
+<form method="POST">
+  <div class="mb-3 row">
+    <label for="title" class="col-sm-2 col-form-label">title</label>
+    <div class="col-sm-10">
+      <input type="title" name="title" class="form-control" id="title">
+    </div>
+  </div>
+  <div class="mb-3 row">
+    <label for="content" class="col-sm-2 col-form-label">content</label>
+    <div class="col-sm-10">
+      <input type="content" name="content" class="form-control" id="content">
+    </div>
+  </div>
+  <div class="mb-3 row">
+    <button type="submit" class="btn btn-primary mb-3">Update</button>
+  </div>
+</form>
+{% endblock content %}

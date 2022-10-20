@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="card mb-3" style="max-width: 30rem;">
+        <div class="card-header">
+            <h3 class="card-title">{{user.username}}</h3>
+        </div>
+        <div class="card-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col">Full name</div>
+                    <div class="col">{{ user.full_name }}</div>
+                </div>
+                <div class="row">
+                    <div class="col">Email</div>
+                    <div class="col">{{ user.email }}</div>
+                </div>
+            </div>
+            <br>
+            <a href="/users/{{ user.id }}/update/"> Update </a>
+            <br>
+            <a href="/users/{{ user.id }}/delete/"> Delete </a>
+        </div>
+    </div>
+{% endblock content %}

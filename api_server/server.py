@@ -1,3 +1,4 @@
+import os
 import uvicorn
 
 from fastapi import FastAPI
@@ -6,16 +7,23 @@ from api_server.api_server.routers import users, articles, statistics
 from api_server.database import database, engine
 from api_server.api_server.users import models as users_models
 from api_server.api_server.articles import models as articles_models
+from dotenv import load_dotenv
 
+
+load_dotenv()
 
 app = FastAPI()
 
-
-origins = [
-    "http://localhost:3000",
-    "localhost:3000"
-]
-
+if os.getenv('RENDERING') == "CLIENT":
+    origins = [
+        "http://localhost:3000",
+        "localhost:3000"
+    ]
+else:
+    origins = [
+        "http://localhost:8000",
+        "localhost:8000"
+    ]
 
 app.add_middleware(
     CORSMiddleware,

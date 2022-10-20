@@ -31,6 +31,13 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
         users.models.User).offset(skip).limit(limit).all()
 
 
+def get_moderators(db: Session, skip: int = 0, limit: int = 100):
+    return (db.query(
+        users.models.User).filter(
+            users.models.User.is_moderator == True).offset(
+                skip).limit(limit).all())
+
+
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 

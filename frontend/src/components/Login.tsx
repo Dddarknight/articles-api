@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router"
-import { fetchToken, setToken } from "./Auth"
+import { useCookies } from "react-cookie";
 import axios from "axios"
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,38 +10,37 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+const URL = 'http://localhost:8080/token'
+
 const theme = createTheme();
 
 export function Login(){
   const navigate = useNavigate();
-  const token = fetchToken();
-  if(token !== null){
-    return(
-        <p>You are logged in</p>
-  )};
+  const [cookies, setCookie, removeCookie] = useCookies();
+  const token = cookies.access_token;
+  if (token) {
+    return (
+      <p>You are logged in</p>
+    )
+  };
+
   const login = async (event: React.FormEvent<HTMLFormElement>)=> {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-        const username = String(data.get('username'));
-        const requestOptions = new URLSearchParams();
-        requestOptions.append('username', username);
-        requestOptions.append('password', String(data.get('password')));
-        await axios.post('http://localhost:8080/token', requestOptions)
-         .then((response) => {
-           if(response.data.access_token){
-             setToken(response.data.access_token);
-             navigate("/");
-           }
-         })
-         .catch((error) => {
-           console.log(error,'error');
-         });
-     }
+    const username = String(data.get('username'));
+    const requestOptions = new URLSearchParams();
+    requestOptions.append('username', username);
+    requestOptions.append('password', String(data.get('password')));
+    const response = await axios.post(URL, requestOptions)
+    if (response.data.access_token) {
+      setCookie('access_token', response.data.access_token, {maxAge: 900});
+      navigate("/");
+    };
+  };
  
     return (
         <ThemeProvider theme={theme}>
-
-        <Container component="main" maxWidth="xs">
+         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box
             sx={{
@@ -86,6 +85,7 @@ export function Login(){
     </Box>
     </Box>
     </Container>
+        
     </ThemeProvider>
-);
-        }
+    );
+}

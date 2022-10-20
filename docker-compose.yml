@@ -48,6 +48,16 @@ services:
       - mongo_db
       - postgres_db
 
+  rendering_server:
+    build: rendering_server
+    container_name: rendering_server
+    env_file:
+      - .env
+    ports:
+      - 8000:8000
+    networks:
+      - custom
+
   frontend:
     build: frontend
     container_name: frontend

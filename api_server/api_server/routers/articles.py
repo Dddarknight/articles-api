@@ -1,3 +1,4 @@
+from typing import List
 from datetime import datetime
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -40,6 +41,21 @@ async def read_article(
                   'date_time': str(datetime.now())}
     await make_event(event_data)
     return article
+
+
+@router.get("/articles",
+            response_model=List[schemas.Article])
+async def read_articles(
+    *,
+    db: Session = Depends(dependencies.get_db),
+    user: User = Depends(dependencies.get_current_user),
+    skip: int = 0,
+    limit: int = 100
+):
+    articles = crud.get_articles(db=db)
+    if not articles:
+        raise HTTPException(status_code=404, detail="Articles not found")
+    return articles
 
 
 @router.put("/articles/{article_id}",

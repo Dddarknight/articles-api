@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>
+        Articles
+    </h1>
+    <a href='/article/create'>Create an article</a>
+    <br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Content</th>
+            </tr>
+        </thead>
+        <tbody>
+                {% for article in articles %}
+                <tr>
+                    <td> <a href="/articles/{{ article.id }}">{{ article.title }}</a> </td>
+                    <td> {{ article.content}} </td>
+                </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}
