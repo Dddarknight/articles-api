@@ -1,7 +1,7 @@
 # Articles navigator
 A dockerized FastAPI App with 2 options of rendering (server-side and React frontend).
 Provides the oppotunity for users' articles navigation with standart user authentication system.
-![Alt text](/Users/uliaegorycheva/Documents/app_diagram.png "App structure") 
+![App structure](https://github.com/Dddarknight/articles-api/image/app_diagram.png "App structure") 
 ____
 
 ### CodeClimate
