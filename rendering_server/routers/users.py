@@ -8,7 +8,7 @@ from rendering_server.utils import templates
 from rendering_server.routers.utils import get_headers_with_token
 from dotenv import load_dotenv
 from rendering_server.mail_service.sender import send_to_queue
-from rendering_server.mail_service.listener import listen_to_queue, get_moderators_emails
+from rendering_server.mail_service.listener import listen_to_queue
 
 
 load_dotenv()
@@ -32,8 +32,7 @@ async def get_users(request: Request):
 async def get_user(request: Request, user_id: int):
     async with aiohttp.ClientSession() as session:
         async with session.get(
-                f'http://{HOST}:8080/users/{user_id}'
-                ) as response:
+                f'http://{HOST}:8080/users/{user_id}') as response:
             user = await response.json()
     return templates.TemplateResponse("user.html",
                                       {"request": request, "user": user})
@@ -124,8 +123,7 @@ async def update_user(request: Request,
         async with session.put(
                 f'http://{HOST}:8080/users/{user_id}',
                 json=data,
-                headers=headers
-                ) as response:
+                headers=headers) as response:
             user = await response.json()
     redirect = RedirectResponse("/", status_code=303)
     cookie_value = 'User was updated' if user.get(
@@ -153,8 +151,7 @@ async def delete_article(request: Request,
     async with aiohttp.ClientSession() as session:
         async with session.delete(
                 f'http://{HOST}:8080/users/{user_id}',
-                headers=headers
-                ) as response:
+                headers=headers) as response:
             user = await response.json()
     redirect = RedirectResponse("/", status_code=303)
     cookie_value = 'User was deleted' if user.get(
@@ -162,10 +159,3 @@ async def delete_article(request: Request,
     redirect.set_cookie(key='message', value=cookie_value)
     redirect.delete_cookie('access_token')
     return redirect
-
-
-# @router.get('/moderators', response_class=HTMLResponse)
-# async def get_m(request: Request):
-#     emails = await get_moderators_emails()
-#     return templates.TemplateResponse("moderators.html",
-#                                       {"request": request, "emails": emails})

@@ -67,8 +67,7 @@ async def create_article(request: Request,
         async with session.post(
                 f'http://{HOST}:8080/articles/create',
                 json=data,
-                headers=headers
-                ) as response:
+                headers=headers) as response:
             await response.json()
     redirect = RedirectResponse("/", status_code=303)
     return redirect
@@ -96,8 +95,7 @@ async def update_article(request: Request,
         async with session.put(
                 f'http://{HOST}:8080/articles/{article_id}',
                 json=data,
-                headers=headers
-                ) as response:
+                headers=headers) as response:
             article = await response.json()
     redirect = RedirectResponse("/", status_code=303)
     cookie_value = 'Article was updated' if article.get(
@@ -125,8 +123,7 @@ async def delete_article(request: Request,
     async with aiohttp.ClientSession() as session:
         async with session.delete(
                 f'http://{HOST}:8080/articles/{article_id}',
-                headers=headers
-                ) as response:
+                headers=headers) as response:
             article = await response.json()
     redirect = RedirectResponse("/", status_code=303)
     cookie_value = 'Article was deleted' if article.get(

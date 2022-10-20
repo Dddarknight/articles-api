@@ -34,7 +34,7 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
 def get_moderators(db: Session, skip: int = 0, limit: int = 100):
     return (db.query(
         users.models.User).filter(
-            users.models.User.is_moderator == True).offset(
+            users.models.User.is_moderator is True).offset(
                 skip).limit(limit).all())
 
 
@@ -53,9 +53,7 @@ def authenticate_user(db: Session,
                       username: str,
                       password: str):
     user = get_user_by_username(db, username)
-    if not user:
-        return False
-    if not verify_password(password, user.hashed_password):
+    if not user or not verify_password(password, user.hashed_password):
         return False
     return user
 

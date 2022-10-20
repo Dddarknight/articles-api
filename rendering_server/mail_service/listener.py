@@ -1,4 +1,3 @@
-import aiohttp
 import functools
 import os
 import pika
@@ -54,9 +53,6 @@ def on_message(channel, method_frame, header_frame, body, args):
 
 
 def get_moderators_emails():
-    # async with aiohttp.ClientSession() as session:
-    #     async with session.get(f'http://{HOST}:8080/moderators') as response:
-    #         moderators = await response.json()
     response = requests.get(f'http://{HOST}:8080/moderators')
     moderators = response.json()
     emails = []
@@ -76,10 +72,6 @@ def email_function(message):
     return
 
 
-# def callback(ch, method, properties, body):
-#     email_function(body)
-
-
 def listen_to_queue():
     credentials = pika.PlainCredentials(RABBIT_USER, RABBIT_PASSWORD)
     parameters = pika.ConnectionParameters(
@@ -95,26 +87,10 @@ def listen_to_queue():
         exchange='registration', queue='email_queue')
     channel.basic_qos(prefetch_count=1)
 
-    # channel.basic_consume(
-    #     'email_queue',
-    #     callback,
-    #     auto_ack=False)
-    # try:
-    #     for method, properties, body in channel.consume('email_queue', inactivity_timeout=5):
-    #         if not body:
-    #             break
-    #         else:
-    #             callback(channel, method, properties, body)
-    # except KeyboardInterrupt:
-    #     channel.stop_consuming()
-    
-    # channel.start_consuming()
-    # channel.stop_consuming()
-    
     threads = []
     on_message_callback = functools.partial(on_message, args=(threads))
     channel.basic_consume('email_queue', on_message_callback)
-    
+
     try:
         channel.start_consuming()
     except KeyboardInterrupt:

@@ -6,9 +6,15 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from rendering_server.routers import users, articles
+from dotenv import load_dotenv
+
+
+load_dotenv()
+
+DSN = os.getenv('DSN')
 
 sentry_sdk.init(
-    dsn="https://e98838ebed8648488f4d213fe3e28df5@o4504012217712640.ingest.sentry.io/4504012219744256",
+    dsn=DSN,
     traces_sample_rate=1.0,
 )
 app = FastAPI()
