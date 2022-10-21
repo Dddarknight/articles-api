@@ -1,6 +1,5 @@
 import os
 import pika
-from pika.exchange_type import ExchangeType
 from dotenv import load_dotenv
 
 
@@ -28,7 +27,7 @@ def send_to_queue():
     channel = connection.channel()
     channel.queue_declare(
         queue='email_queue',
-        arguments = {"x-single-active-consumer": True},
+        arguments={"x-single-active-consumer": True},
         auto_delete=True)
     channel.exchange_declare(
         exchange='registration')
@@ -41,5 +40,5 @@ def send_to_queue():
         routing_key='email_queue',
         body=MESSAGE,
         properties=pika.BasicProperties(
-            delivery_mode = 2))
+            delivery_mode=2))
     connection.close()

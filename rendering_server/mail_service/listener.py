@@ -7,7 +7,6 @@ import ssl
 import time
 import threading
 from dotenv import load_dotenv
-from pika.exchange_type import ExchangeType
 
 
 load_dotenv()
@@ -84,7 +83,7 @@ def listen_to_queue():
         exchange='registration')
     channel.queue_declare(
         queue='email_queue',
-        arguments = {"x-single-active-consumer": True},
+        arguments={"x-single-active-consumer": True},
         auto_delete=True)
     channel.queue_bind(
         exchange='registration', queue='email_queue')
