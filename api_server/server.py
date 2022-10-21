@@ -14,16 +14,10 @@ load_dotenv()
 
 app = FastAPI()
 
-if os.getenv('RENDERING') == "CLIENT":
-    origins = [
-        "http://localhost:3000",
-        "localhost:3000"
-    ]
-else:
-    origins = [
-        "http://localhost:8000",
-        "localhost:8000"
-    ]
+origins = [
+    "http://localhost:3000",
+    "localhost:3000"
+]
 
 app.add_middleware(
     CORSMiddleware,

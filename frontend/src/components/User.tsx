@@ -8,7 +8,8 @@ import CardActions from '@mui/material/CardActions';
 import Typography from '@mui/material/Typography';
 import useFetchData from "./Utils";
 
-const URL = 'http://localhost:8080/users/'
+const HOST = process.env.REACT_APP_HOST;
+const URL = `http://${HOST}:8080/users/`
 
 export interface User {
   id: number;

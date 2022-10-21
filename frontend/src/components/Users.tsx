@@ -11,7 +11,8 @@ import TableRow from '@mui/material/TableRow';
 import { User } from "./User";
 import useFetchData from "./Utils";
 
-const URL = 'http://localhost:8080/users'
+const HOST = process.env.REACT_APP_HOST;
+const URL = `http://${HOST}:8080/users`
 
 interface Column {
   id: 'username' | 'full_name' | 'email' ;

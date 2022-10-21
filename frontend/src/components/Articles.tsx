@@ -13,7 +13,8 @@ import { Article } from "./Article";
 import useFetchData from "./Utils";
 import { getAuthHeaders } from "./Auth";
 
-const URL = 'http://localhost:8080/articles'
+const HOST = process.env.REACT_APP_HOST;
+const URL = `http://${HOST}:8080/articles`
 
 interface Column {
   id: 'title' | 'content' ;

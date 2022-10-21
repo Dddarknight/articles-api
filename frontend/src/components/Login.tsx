@@ -10,7 +10,8 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const URL = 'http://localhost:8080/token'
+const HOST = process.env.REACT_APP_HOST;
+const URL = `http://${HOST}:8080/token`
 
 const theme = createTheme();
 

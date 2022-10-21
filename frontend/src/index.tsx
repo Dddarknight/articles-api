@@ -1,4 +1,3 @@
-
 import React from "react";
 import * as ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -16,6 +15,8 @@ import { Login } from './components/Login';
 import { Logout } from './components/Logout';
 import { SignUp } from "./components/SignUp";
 import { IsAuthenticated } from "./components/Utils";
+import { initializeApp } from "firebase/app";
+import { getAnalytics, logEvent } from "firebase/analytics";
 
 function App() {
   return (
@@ -105,3 +106,17 @@ function App() {
 
 const root = ReactDOM.createRoot(document.getElementById("root")!);
 root.render(<App />);
+
+const firebaseConfig = {
+    apiKey: process.env.REACT_APP_APIKEY,
+    authDomain: process.env.REACT_APP_AUTHDOMAIN,
+    projectId: process.env.REACT_APP_PROJECTID,
+    storageBucket: process.env.REACT_APP_TORAGEBUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
+    appId: process.env.REACT_APP_APPID,
+    measurementId: process.env.REACT_APP_MEASUREMENTID
+  };
+  
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  logEvent(analytics, 'notification_received');

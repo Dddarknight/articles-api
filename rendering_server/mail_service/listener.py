@@ -75,14 +75,17 @@ def email_function(message):
 def listen_to_queue():
     credentials = pika.PlainCredentials(RABBIT_USER, RABBIT_PASSWORD)
     parameters = pika.ConnectionParameters(
-        HOST, RABBIT_PORT, RABBIT_VIRTUAL_HOST, credentials, heartbeat=5)
+        HOST, RABBIT_PORT, RABBIT_VIRTUAL_HOST, credentials,
+        heartbeat=10, blocked_connection_timeout=5)
     connection = pika.BlockingConnection(parameters)
 
     channel = connection.channel()
     channel.exchange_declare(
-        exchange='registration',
-        exchange_type=ExchangeType.direct)
-    channel.queue_declare(queue='email_queue')
+        exchange='registration')
+    channel.queue_declare(
+        queue='email_queue',
+        arguments = {"x-single-active-consumer": True},
+        auto_delete=True)
     channel.queue_bind(
         exchange='registration', queue='email_queue')
     channel.basic_qos(prefetch_count=1)
@@ -91,10 +94,8 @@ def listen_to_queue():
     on_message_callback = functools.partial(on_message, args=(threads))
     channel.basic_consume('email_queue', on_message_callback)
 
-    try:
-        channel.start_consuming()
-    except KeyboardInterrupt:
-        channel.stop_consuming()
+    channel.start_consuming()
+    channel.stop_consuming()
 
     for thread in threads:
         thread.join()

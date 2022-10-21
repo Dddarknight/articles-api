@@ -15,7 +15,8 @@ import { getAuthHeaders } from "./Auth";
 
 const theme = createTheme();
 
-const URL = 'http://localhost:8080/users/'
+const HOST = process.env.REACT_APP_HOST;
+const URL = `http://${HOST}:8080/users/`
 
 export function UserUpdate() {
   const params = useParams();

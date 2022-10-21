@@ -1,10 +1,8 @@
 import React from "react";
 import axios from "axios";
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router";
 import { useCookies } from "react-cookie";
-import { AxiosRequestConfig } from 'axios';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -18,7 +16,8 @@ import { getAuthHeaders } from "./Auth";
 
 const theme = createTheme();
 
-const URL = 'http://localhost:8080/articles/';
+const HOST = process.env.REACT_APP_HOST;
+const URL = `http://${HOST}:8080/articles/`;
 
 export function ArticleUpdate() {
   const params = useParams();

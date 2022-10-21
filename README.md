@@ -2,6 +2,7 @@
 A dockerized FastAPI App with 2 options of rendering (server-side and React frontend).
 Provides the oppotunity for users' articles navigation with standart user authentication system.
 ![App structure](image/app_diagram.png "App structure") 
+PostgreSQL is used for collecting data about users and their articles, MongoDB is used for registrating events.
 ____
 
 ### CodeClimate
@@ -31,16 +32,20 @@ This project was built using these tools:
 ## Installation for contributors
 ```
 $ git clone git@github.com:Dddarknight/articles-api.git
-$ cd articles-api
-$ pip install poetry
-$ make install
 $ touch .env
 
 You have to fill .env file. See .env.example.
-(You will have to fill username and password fields for PostgreSQL, RabbitMQ, email and choose the type of rendering.
-To get a SECRET_KEY run: $ openssl rand -hex 32)
+(You will have to fill username and password fields for PostgreSQL, RabbitMQ, email.
+To get a SECRET_KEY for FastAPI run: $ openssl rand -hex 32)
 
-$ alembic upgrade head
+$ cd frontend
+$ touch .env
+
+You have to fill .env file in frontend for Firebase project configuration. See .env.example.
+
+$ cd ..
+
+$ docker-compose up -d --build
 ```
 
 ## Description and usage

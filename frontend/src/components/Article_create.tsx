@@ -16,7 +16,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
 
-const URL = 'http://localhost:8080/articles/create';
+const HOST = process.env.REACT_APP_HOST;
+const URL = `http://${HOST}:8080/articles/create`;
 
 export function ArticleCreate() {
     const navigate = useNavigate();
