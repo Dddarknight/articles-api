@@ -56,7 +56,7 @@ class Listener:
     def listen_to_queue(self, exchange, queue):
         credentials = pika.PlainCredentials(RABBIT_USER, RABBIT_PASSWORD)
         parameters = pika.ConnectionParameters(
-            'localhost', RABBIT_PORT, RABBIT_HOST, credentials
+            HOST, RABBIT_PORT, RABBIT_HOST, credentials
             )
         connection = pika.BlockingConnection(parameters)
 

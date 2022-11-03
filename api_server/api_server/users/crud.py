@@ -34,7 +34,7 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
 def get_moderators(db: Session, skip: int = 0, limit: int = 100):
     return (db.query(
         users.models.User).filter(
-            users.models.User.is_moderator is True).offset(
+            users.models.User.is_moderator).offset(
                 skip).limit(limit).all())
 
 
