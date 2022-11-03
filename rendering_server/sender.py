@@ -13,32 +13,29 @@ HOST = os.getenv('HOST')
 
 RABBIT_PORT = os.getenv('RABBIT_PORT')
 
-RABBIT_VIRTUAL_HOST = os.getenv('RABBIT_VIRTUAL_HOST')
-
-MESSAGE = "A user has registered"
+RABBIT_HOST = os.getenv('RABBIT_HOST')
 
 
-def send_to_queue():
+def send_to_queue(message, exchange, queue):
     credentials = pika.PlainCredentials(RABBIT_USER, RABBIT_PASSWORD)
     parameters = pika.ConnectionParameters(
-        HOST, RABBIT_PORT, RABBIT_VIRTUAL_HOST, credentials,
+        HOST, RABBIT_PORT, RABBIT_HOST, credentials,
         heartbeat=10, blocked_connection_timeout=5)
     connection = pika.BlockingConnection(parameters)
     channel = connection.channel()
     channel.queue_declare(
-        queue='email_queue',
-        arguments={"x-single-active-consumer": True},
-        auto_delete=True)
+        queue=queue,
+        arguments={"x-single-active-consumer": True})
     channel.exchange_declare(
-        exchange='registration')
+        exchange=exchange)
     channel.queue_bind(
-        exchange='registration',
-        queue='email_queue',
-        routing_key='email_queue')
+        exchange=exchange,
+        queue=queue,
+        routing_key=queue)
     channel.basic_publish(
-        exchange='registration',
-        routing_key='email_queue',
-        body=MESSAGE,
+        exchange=exchange,
+        routing_key=queue,
+        body=message,
         properties=pika.BasicProperties(
             delivery_mode=2))
     connection.close()

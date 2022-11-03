@@ -1,14 +1,17 @@
-import aiohttp
 import os
+from enum import Enum
+from dotenv import load_dotenv
 
 from fastapi import APIRouter, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 
 from rendering_server.utils import templates
 from rendering_server.routers.utils import get_headers_with_token
-from dotenv import load_dotenv
-from rendering_server.mail_service.sender import send_to_queue
-from rendering_server.mail_service.listener import listen_to_queue
+from rendering_server.routers.utils import api_request_get, api_request_put
+from rendering_server.routers.utils import api_request_post_token
+from rendering_server.routers.utils import api_request_post, api_request_delete
+from rendering_server.routers.utils import create_redirect_with_cookie
+from rendering_server.sender import send_to_queue
 
 
 load_dotenv()
@@ -16,24 +19,25 @@ load_dotenv()
 router = APIRouter()
 
 HOST = os.getenv('HOST')
+API_PORT = os.getenv('API_PORT')
+
+
+class Urls(Enum):
+    USERS = f'http://{HOST}:{API_PORT}/users/'
+    TOKEN = f'http://{HOST}:{API_PORT}/token/'
+    SIGNUP = f'http://{HOST}:{API_PORT}/sign-up/'
 
 
 @router.get('/users', response_class=HTMLResponse)
 async def get_users(request: Request):
-    async with aiohttp.ClientSession() as session:
-        async with session.get(
-                f'http://{HOST}:8080/users') as response:
-            users = await response.json()
+    users = await api_request_get(Urls.USERS.value)
     return templates.TemplateResponse("users.html",
                                       {"request": request, "users": users})
 
 
 @router.get('/users/{user_id}', response_class=HTMLResponse)
 async def get_user(request: Request, user_id: int):
-    async with aiohttp.ClientSession() as session:
-        async with session.get(
-                f'http://{HOST}:8080/users/{user_id}') as response:
-            user = await response.json()
+    user = await api_request_get(Urls.USERS.value, id=user_id)
     return templates.TemplateResponse("user.html",
                                       {"request": request, "user": user})
 
@@ -54,11 +58,9 @@ def login_form(request: Request):
 @router.post('/login', response_class=HTMLResponse)
 async def login(username: str = Form(), password: str = Form()):
     data = {'username': username, 'password': password}
-    async with aiohttp.ClientSession() as session:
-        async with session.post(f'http://{HOST}:8080/token',
-                                data=data) as response:
-            token_data = await response.json()
-            token = token_data['access_token']
+    token_data = await api_request_post_token(Urls.TOKEN.value, data=data)
+    token = token_data['access_token']
+
     redirect = RedirectResponse("/", status_code=303)
     redirect.set_cookie(key='access_token', value=token, expires=900)
     return redirect
@@ -86,12 +88,13 @@ async def sign_up(username: str = Form(),
             'email': email,
             'full_name': full_name,
             'password': password}
-    async with aiohttp.ClientSession() as session:
-        async with session.post(f'http://{HOST}:8080/sign-up',
-                                json=data) as response:
-            await response.json()
-    send_to_queue()
-    listen_to_queue()
+    await api_request_post(Urls.SIGNUP.value, json=data)
+
+    send_to_queue(
+        message=f'A user {username} was registered',
+        exchange='registration',
+        queue='email_queue')
+
     redirect = RedirectResponse("/login", status_code=303)
     return redirect
 
@@ -101,6 +104,7 @@ async def update_user_form(request: Request, user_id: int):
     headers = get_headers_with_token(request)
     if not headers:
         return RedirectResponse("/login", status_code=303)
+
     return templates.TemplateResponse("user_update.html",
                                       {"request": request})
 
@@ -116,19 +120,20 @@ async def update_user(request: Request,
             'email': email,
             'full_name': full_name,
             'password': password}
+
     headers = get_headers_with_token(request)
     if not headers:
         return RedirectResponse("/login", status_code=303)
-    async with aiohttp.ClientSession() as session:
-        async with session.put(
-                f'http://{HOST}:8080/users/{user_id}',
-                json=data,
-                headers=headers) as response:
-            user = await response.json()
-    redirect = RedirectResponse("/", status_code=303)
-    cookie_value = 'User was updated' if user.get(
-        'username') else "You can't change another user"
-    redirect.set_cookie(key='message', value=cookie_value)
+
+    user = await api_request_put(
+        Urls.USERS.value, headers, user_id, data)
+
+    redirect = create_redirect_with_cookie(
+        cookie_value_success='User was updated',
+        cookie_value_fail="You can't change another user",
+        object=user,
+        attribute='username')
+
     return redirect
 
 
@@ -138,6 +143,7 @@ async def delete_article_form(request: Request,
     headers = get_headers_with_token(request)
     if not headers:
         return RedirectResponse("/login", status_code=303)
+
     return templates.TemplateResponse("user_delete.html",
                                       {"request": request})
 
@@ -148,14 +154,15 @@ async def delete_article(request: Request,
     headers = get_headers_with_token(request)
     if not headers:
         return RedirectResponse("/login", status_code=303)
-    async with aiohttp.ClientSession() as session:
-        async with session.delete(
-                f'http://{HOST}:8080/users/{user_id}',
-                headers=headers) as response:
-            user = await response.json()
-    redirect = RedirectResponse("/", status_code=303)
-    cookie_value = 'User was deleted' if user.get(
-        'username') else "You can't delete another user"
-    redirect.set_cookie(key='message', value=cookie_value)
+
+    user = await api_request_delete(
+        Urls.USERS.value, headers, user_id)
+
+    redirect = create_redirect_with_cookie(
+        cookie_value_success='User was deleted',
+        cookie_value_fail="You can't delete another user",
+        object=user,
+        attribute='username')
     redirect.delete_cookie('access_token')
+
     return redirect

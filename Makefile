@@ -9,3 +9,6 @@ test-coverage:
 
 test:
 	poetry run pytest
+
+run:
+	poetry run uvicorn rendering_server.server:app --reload

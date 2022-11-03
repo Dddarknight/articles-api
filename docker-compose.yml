@@ -44,16 +44,26 @@ services:
       - 8000:8000
     networks:
       - custom
-
-  frontend:
-    build: frontend
-    container_name: frontend
+  
+  listening_server:
+    build: listening_server
+    container_name: listening_server
+    env_file:
+      - .env
     ports:
-      - 3000:3000
-    depends_on:
-      - api_server
+      - 3001:3001
     networks:
       - custom
+
+  # frontend:
+  #   build: frontend
+  #   container_name: frontend
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - api_server
+  #   networks:
+  #     - custom
 
 networks:
   custom:

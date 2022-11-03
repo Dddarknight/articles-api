@@ -6,13 +6,8 @@ ____
 PostgreSQL is used for collecting data about users and their articles, MongoDB is used for registrating events.
 ____
 
-### CodeClimate
-<a href="https://codeclimate.com/github/Dddarknight/articles-api/maintainability"><img src="https://api.codeclimate.com/v1/badges/9a422e0f9bb23c66c9a3/maintainability" /></a>
-
-<a href="https://codeclimate.com/github/Dddarknight/articles-api/test_coverage"><img src="https://api.codeclimate.com/v1/badges/9a422e0f9bb23c66c9a3/test_coverage" /></a>
-
-### CI status:
-[![Python CI](https://github.com/Dddarknight/articles-api/actions/workflows/pyci.yml/badge.svg)](https://github.com/Dddarknight/articles-api/actions)
+### CodeClimate and CI status
+<a href="https://codeclimate.com/github/Dddarknight/articles-api/maintainability"><img src="https://api.codeclimate.com/v1/badges/9a422e0f9bb23c66c9a3/maintainability" /></a> <a href="https://codeclimate.com/github/Dddarknight/articles-api/test_coverage"><img src="https://api.codeclimate.com/v1/badges/9a422e0f9bb23c66c9a3/test_coverage" /></a> [![Python CI](https://github.com/Dddarknight/articles-api/actions/workflows/pyci.yml/badge.svg)](https://github.com/Dddarknight/articles-api/actions)
 
 ## Links
 This project was built using these tools:
@@ -30,7 +25,7 @@ This project was built using these tools:
 | [Sentry](https://sentry.io/welcome/) | "Application Monitoring and Error Tracking Software" |
 
 
-## Installation for contributors
+## Installation
 ```
 $ git clone git@github.com:Dddarknight/articles-api.git
 $ touch .env
