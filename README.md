@@ -26,23 +26,30 @@ This project was built using these tools:
 
 
 ## Installation
-```
+| Main steps | Commands |
+|----------|---------|
+| Copy a project | ```
 $ git clone git@github.com:Dddarknight/articles-api.git
+$ cd articles-api 
+```|
+| Set up environment variables |  ``` 
 $ touch .env
 
 You have to fill .env file. See .env.example.
 (You will have to fill username and password fields for PostgreSQL, RabbitMQ, email.
 To get a SECRET_KEY for FastAPI run: $ openssl rand -hex 32)
-
-$ cd frontend
+``` |
+| Set up environment variables for frontend |  ```$ cd frontend
 $ touch .env
+Then you have to fill .env file in frontend for Firebase project configuration. See .env.example.
+```|
+| Working with Docker |  ```$ cd ..
 
-You have to fill .env file in frontend for Firebase project configuration. See .env.example.
-
-$ cd ..
+If you haven't used Docker earlier, you should follow the installation instruction on the official website (https://docs.docker.com/engine/install/)
+$ sudo apt install docker-compose
 
 $ docker-compose up -d --build
-```
+```|
 
 ## Description and usage
 |   | Description |

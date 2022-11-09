@@ -55,15 +55,15 @@ services:
     networks:
       - custom
 
-  # frontend:
-  #   build: frontend
-  #   container_name: frontend
-  #   ports:
-  #     - 3000:3000
-  #   depends_on:
-  #     - api_server
-  #   networks:
-  #     - custom
+  frontend:
+    build: frontend
+    container_name: frontend
+    ports:
+      - 3000:3000
+    depends_on:
+      - api_server
+    networks:
+      - custom
 
 networks:
   custom:
