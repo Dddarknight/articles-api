@@ -1,6 +1,6 @@
 # Articles navigator
 A dockerized FastAPI App with 2 options of rendering (server-side and React frontend).
-Provides the oppotunity for users' articles navigation with standart user authentication system.
+Provides the opportunity for users' articles navigation with standard user authentication system.
 ![App structure](image/app_diagram.png "App structure") 
 ____
 PostgreSQL is used for collecting data about users and their articles, MongoDB is used for registrating events.
