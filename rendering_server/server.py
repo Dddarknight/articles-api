@@ -1,12 +1,11 @@
 import os
 import sentry_sdk
 import uvicorn
-from pathlib import Path
 
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
 from rendering_server.routers import users, articles
+from rendering_server.utils import templates
 from dotenv import load_dotenv
 
 
@@ -19,10 +18,6 @@ sentry_sdk.init(
     traces_sample_rate=1.0,
 )
 app = FastAPI()
-
-BASE_DIR = Path(__file__).resolve().parent
-
-templates = Jinja2Templates(directory=str(Path(BASE_DIR, 'templates')))
 
 app.include_router(users.router)
 app.include_router(articles.router)

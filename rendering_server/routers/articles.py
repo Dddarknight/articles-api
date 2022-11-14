@@ -6,11 +6,11 @@ from fastapi import APIRouter, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 
 from rendering_server.utils import templates
-from rendering_server.routers.utils import get_headers_with_token
-from rendering_server.routers.utils import get_login_redirect
-from rendering_server.routers.utils import api_request_get, api_request_put
-from rendering_server.routers.utils import api_request_post, api_request_delete
-from rendering_server.routers.utils import create_redirect_with_cookie
+from rendering_server.utils import get_headers_with_token
+from rendering_server.utils import get_login_redirect
+from rendering_server.utils import api_request_get, api_request_put
+from rendering_server.utils import api_request_post, api_request_delete
+from rendering_server.utils import create_redirect_with_cookie
 
 
 load_dotenv()
