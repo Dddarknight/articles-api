@@ -4,6 +4,9 @@ Provides the opportunity for users' articles navigation with standard user authe
 ![App structure](image/app_diagram.png "App structure") 
 ____
 PostgreSQL is used for collecting data about users and their articles, MongoDB is used for registrating events.
+The rendering server has some additional functionality compared with the React frontend: it is connected with RabbitMQ and Sentry. 
+RabbitMQ is used while the rendering server pushes message about a new registered user into a queue and the listening server listens to this queue.
+Sentry is used for registrating server errors.
 ____
 
 ### CodeClimate and CI status
@@ -62,12 +65,22 @@ $ docker-compose up -d --build
 ```
 
 ## Description and usage
-|   | Description |
+
+**Functionality connected with users management**
+
+| Page | Description |
 |----------|---------|
-| Registration |  First you need to register in the app using the provided form of registration. |
-| Log in | Then you have to log in using the information you've filled in the registration form. |
-| Users | You can see all users on the relevant page. You can change the information only about yourself. |
-| Articles | Here you can see the list of users' articles. Only authorized user's article can be changed.|
+| Sign-up |  First you need to register in the app using the provided form of registration. |
+| Log in | Then you have to log in using the information you've filled in the registration form. JSON Web Tokens are used for authorization.  |
+| Users | You can see list of all users on the relevant page. |
+| User | The information about the user. The user's data can be changed or deleted only by the authorized user. |
+
+**Functionality connected with articles management**
+
+| Page | Description |
+|----------|---------|
+| Articles | Here you can see the list of users' articles. Also here you can create a new article. |
+| Article | Only authorized user's article can be changed or deleted. |
 
 ## License
 [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/)
