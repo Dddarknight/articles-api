@@ -60,13 +60,13 @@ async def read_user(*,
     return db_user
 
 
-@router.get("/users/me/", response_model=schemas.User)
+@router.get("/user/me/", response_model=schemas.User)
 async def read_users_me(
         user: users_models.User = Depends(dependencies.get_current_user)):
     return user
 
 
-@router.get("/users/me/articles/")
+@router.get("/user/me/articles/")
 async def read_own_articles(
         user: users_models.User = Depends(dependencies.get_current_user)):
     return user.articles

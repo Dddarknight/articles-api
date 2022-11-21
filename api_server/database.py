@@ -23,9 +23,8 @@ Base = declarative_base()
 
 db = SessionLocal()
 
-MONGODB_URL = os.getenv('MONGODB_URL')
-
-mongo_client = motor.motor_asyncio.AsyncIOMotorClient(MONGODB_URL)
+mongo_client = motor.motor_asyncio.AsyncIOMotorClient(
+    host=os.getenv('HOST'), port=27017)
 
 DB = 'articles'
 

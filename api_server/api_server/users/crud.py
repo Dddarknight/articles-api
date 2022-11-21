@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from api_server.api_server import users
+from api_server.api_server import articles
 from api_server.api_server.users.schemas import UserCreate
 
 
@@ -95,6 +96,13 @@ def update_user(db: Session,
 def delete_user(db: Session,
                 user_id: int):
     db_user = get_user(db, user_id)
+    user_articles = db.query(
+        articles.models.Article
+    ).filter(
+        articles.models.Article.author_id == user_id
+    ).all()
+    for db_article in user_articles:
+        db.delete(db_article)
     db.delete(db_user)
     db.commit()
     return db_user
