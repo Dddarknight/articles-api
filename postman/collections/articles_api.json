@@ -1,0 +1,548 @@
+{
+	"info": {
+		"_postman_id": "a1b7d34c-9c9f-441a-89df-7062a04bdf68",
+		"name": "articles_api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "22859977-a1b7d34c-9c9f-441a-89df-7062a04bdf68"
+	},
+	"item": [
+		{
+			"name": "users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "609585ba-7069-4129-8e18-6386f5595edd",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "18f00f29-1eeb-4900-a70e-4095e8787b51",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/users",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sign-up",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "56013d0a-0879-4632-aca6-3f09980c131c",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "94b9726d-3822-4519-9ce8-2dd1ebad84b1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"harrykane\",\n  \"email\": \"hk@gmail.com\",\n  \"full_name\": \"Harry Kane\",\n  \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/sign-up",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"sign-up"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ee633811-8e3f-4f75-b6a6-26129175ea49",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "e155bfd2-97c9-470c-b523-647186c1da17",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/users/1",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "article",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "86f809a2-e45f-4bfb-b055-d96e3861d6c8",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "103940f6-567d-4c81-9666-6465f18cbb11",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJoYXJyeWthbmUiLCJleHAiOjE2Njg5NjczMDN9.8JyQomeDzhF6wu_lJpPZgJVbMzoBZpRRah0G11Y_NbY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/articles/16",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"articles",
+						"16"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4f13aa49-824e-4130-86a4-1f8f8f4b0fa0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "613ad15e-27ad-464a-83df-8e76126b8f79",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "harrykane",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{HOST}}/token",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update_user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "367ff46d-16b2-44a6-9efa-55efa1cc0ac9",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "07092fd7-247b-412a-955e-22be1ee38ca3",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJoYXJyeWthbmUiLCJleHAiOjE2Njg5NjY3MTF9.4HAtQps5LMGKHgFsu0_-gfMvPZRJTKdcXgQVzxeyIDY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"harrykane1\",\n  \"email\": \"hk1@gmail.com\",\n  \"full_name\": \"Harry Kane\",\n  \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/users/11",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"users",
+						"11"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_user",
+			"id": "f33295a2-1438-4508-9ec9-704abab8fee0",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJoYXJyeWthbmUxIiwiZXhwIjoxNjY4OTY3MTk5fQ.xD00rYTq5RSpfOcpJ0v13WuGxkwX05fDFDGIJKgTPMo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/users/11",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"users",
+						"11"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_article",
+			"id": "237bf2fe-1c1a-41c2-a31b-62b31e0ea8d0",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJoYXJyeWthbmUiLCJleHAiOjE2Njg5NjczMDN9.8JyQomeDzhF6wu_lJpPZgJVbMzoBZpRRah0G11Y_NbY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"article_hk\",\n  \"content\": \"content_hk\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/articles/create",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"articles",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update_article",
+			"id": "0135693e-146d-4a80-9d85-2fabc2ebab8b",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJoYXJyeWthbmUiLCJleHAiOjE2Njg5NjczMDN9.8JyQomeDzhF6wu_lJpPZgJVbMzoBZpRRah0G11Y_NbY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"article_hr1\",\n  \"content\": \"content_hr1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/articles/16",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"articles",
+						"16"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_article",
+			"id": "948a0924-ce4d-4dc2-9e44-cb7750bdf557",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJoYXJyeWthbmUiLCJleHAiOjE2Njg5NjczMDN9.8JyQomeDzhF6wu_lJpPZgJVbMzoBZpRRah0G11Y_NbY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/articles/16",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"articles",
+						"16"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "articles",
+			"id": "4418c23f-b921-40d6-977b-92fb7a8844ec",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJuaWNrcG9wZSIsImV4cCI6MTY2ODk2OTUwMn0.VEXAhOis5iVqG8L4SluodgYDZhsVnW2Fz2NEayFt4S4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/articles",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"articles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "me",
+			"id": "64c4d744-1c80-4eb7-8009-d42c7282ec3b",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJoYXJyeWthbmUiLCJleHAiOjE2Njg5Njk2MTR9.kATxsejcoGwiWRHNZ9GYWO8s05IzRMqg-I_vr5DkJyI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/user/me",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"user",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "my_articles",
+			"id": "9ae43468-a63e-416b-a33b-056c6e5e6efd",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJoYXJyeWthbmUiLCJleHAiOjE2Njg5Njk2MTR9.kATxsejcoGwiWRHNZ9GYWO8s05IzRMqg-I_vr5DkJyI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/user/me/articles",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"user",
+						"me",
+						"articles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "statistics",
+			"id": "d10b7f25-9269-4db6-aa5d-3e6b16ed4957",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/statistics",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"statistics"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
